@@ -1,0 +1,6 @@
+@GabriEShopAPI_HostAddress = http://localhost:5032
+
+GET {{GabriEShopAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
