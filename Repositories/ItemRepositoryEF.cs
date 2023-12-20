@@ -2,6 +2,7 @@
 using GabriEShopAPI.Entities;
 using GabriEShopAPI.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System.Xml.Linq;
 
 namespace GabriEShopAPI.Repositories
 {
@@ -12,7 +13,7 @@ namespace GabriEShopAPI.Repositories
         {
             _dataContext = dataContext;
         }
-        public async Task<int> AddNewItem(string name, decimal price, int quantity)//not working
+        public async Task<int> AddNewItem(string name, decimal price, int quantity)
         {
              _dataContext.items.Add(new Item { name = name, price = price, quantity = quantity });
             return await _dataContext.SaveChangesAsync();
@@ -25,7 +26,7 @@ namespace GabriEShopAPI.Repositories
 
         public Task<bool> CheckIfItemExistsById(int id)
         {
-            throw new NotImplementedException();
+            return _dataContext.items.AnyAsync(item => item.id == id);
         }
 
         public async Task<bool> DeleteItem(int id)
@@ -50,11 +51,15 @@ namespace GabriEShopAPI.Repositories
             //ToListAsync naudojamas su Task<List<Item>> jei f-cija async; po ToList() negalima filtruoti, nes filtras tada eis ne per duombaze, o per musu irasus
         }
 
-        public async Task<bool> UpdateItem(int id, string name, decimal price, int quantity) //not working
+        public async Task<bool> UpdateItem(int id, string name, decimal price, int quantity)
         {
-            var updateItem = await _dataContext.items.FirstOrDefaultAsync(x => x.id == 1);
+            var updateItem = await _dataContext.items.FirstOrDefaultAsync(x => x.id == id);
             if (updateItem != null)
             {
+                updateItem.name = name;
+                updateItem.price = price;
+                updateItem.quantity = quantity;
+
                 _dataContext.items.Update(updateItem);
                 await _dataContext.SaveChangesAsync();
             }
