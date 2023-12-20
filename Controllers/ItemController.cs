@@ -17,7 +17,7 @@ namespace GabriEShopAPI.Controllers
             _itemService = itemService;
         }
         [HttpGet]
-        public ActionResult<IEnumerable<Item>> GetItems()
+        public ActionResult<List<Item>> GetItems()
         {
             List<Item> items = _itemService.GetItems();
             if (items == null)
@@ -42,7 +42,7 @@ namespace GabriEShopAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> AddNewItem(AddNewItem newItem)
         {
-            var result = await _itemService.AddNewItem(newItem.Name, newItem.Price);
+            var result = await _itemService.AddNewItem(newItem.Name, newItem.Price, newItem.Quantity);
             if (result == null)
             {
                 throw new Exception("Failed to add item");
@@ -54,7 +54,7 @@ namespace GabriEShopAPI.Controllers
         [Route("{id}")]
         public async Task<IActionResult> UpdateItem(int id, [FromBody] UpdateItem updateItem)
         {
-            var result = await _itemService.UpdateItem(id, updateItem.Name, updateItem.Price);
+            var result = await _itemService.UpdateItem(id, updateItem.Name, updateItem.Price, updateItem.Quantity);
             return Ok(result);
         }
 
@@ -63,11 +63,11 @@ namespace GabriEShopAPI.Controllers
         public async Task<IActionResult> DeleteItem(int id)
         {
             var result = await _itemService.DeleteItem(id);
-            if (result == null)
+            if (!result)
             {
-                throw new Exception($"There is no item with id {id}");
+                throw new Exception($"Unable to reduce quantity for item with id {id}");
             }
-            return Ok(result);
+            return Ok("Item quantity reduced successfully");
         }
     }
 }

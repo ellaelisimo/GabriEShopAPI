@@ -26,7 +26,7 @@ namespace GabriEShopAPI.Services
             return _itemRepository.GetItemById(id);
         }
 
-        public async Task<Item> AddNewItem(string name, decimal price)
+        public async Task<Item> AddNewItem(string name, decimal price, int quantity)
         {
             bool itemExists = await _itemRepository.CheckIfItemExists(name);
             if (itemExists)
@@ -34,13 +34,13 @@ namespace GabriEShopAPI.Services
                 throw new Exception("Item already exists");
             }
 
-            var id = await _itemRepository.AddNewItem(name, price);
+            var id = await _itemRepository.AddNewItem(name, price, quantity);
             return await _itemRepository.GetItemById(id);
         }
 
-        public async Task<Item> UpdateItem(int id, string name, decimal price)
+        public async Task<Item> UpdateItem(int id, string name, decimal price, int quantity)
         {
-            var result = await _itemRepository.UpdateItem(id, name, price);
+            var result = await _itemRepository.UpdateItem(id, name, price, quantity);
             if (result)
             {
                 return await _itemRepository.GetItemById(id);
@@ -53,7 +53,7 @@ namespace GabriEShopAPI.Services
             bool itemExists = await _itemRepository.CheckIfItemExistsById(id);
             if (!itemExists)
             {
-                throw new Exception("The item you want to delete does not exists.");
+                throw new Exception("The item you want to reduce does not exist.");
             }
             return await _itemRepository.DeleteItem(id);
         }
