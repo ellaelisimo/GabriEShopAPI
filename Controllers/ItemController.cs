@@ -47,7 +47,7 @@ namespace GabriEShopAPI.Controllers
             {
                 throw new Exception("Failed to add item");
             }
-            return CreatedAtAction(nameof(GetItemById), new { id = result.Id }, result);
+            return CreatedAtAction(nameof(GetItemById), new { id = result.id }, result);
         }
 
         [HttpPut]

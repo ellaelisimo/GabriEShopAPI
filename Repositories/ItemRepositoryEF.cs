@@ -14,7 +14,7 @@ namespace GabriEShopAPI.Repositories
         }
         public async Task<int> AddNewItem(string name, decimal price, int quantity)
         {
-            await _dataContext.Items.AddAsync(new Item { Name = name, Price = price, Quantity = quantity });
+            await _dataContext.items.AddAsync(new Item { name = name, price = price, quantity = quantity });
             return await _dataContext.SaveChangesAsync();
         }
 
@@ -30,10 +30,10 @@ namespace GabriEShopAPI.Repositories
 
         public async Task<bool> DeleteItem(int id)
         {
-            var deleteItem = await _dataContext.Items.FirstOrDefaultAsync(x => x.Id == 1);
+            var deleteItem = await _dataContext.items.FirstOrDefaultAsync(x => x.id == 1);
             if (deleteItem != null)
             {
-                _dataContext.Items.Remove(deleteItem);
+                _dataContext.items.Remove(deleteItem);
                 await _dataContext.SaveChangesAsync();
             }
             return true;
@@ -41,20 +41,20 @@ namespace GabriEShopAPI.Repositories
 
         public async Task<Item> GetItemById(int id)
         {
-            return await _dataContext.Items.Where(i => i.Id == id).SingleOrDefaultAsync();
+            return await _dataContext.items.Where(i => i.id == id).SingleOrDefaultAsync();
         }
 
         public List<Item> GetItems()
         {
-            return _dataContext.Items.ToList();
+            return _dataContext.items.ToList();
         }
 
         public async Task<bool> UpdateItem(int id, string name, decimal price, int quantity)
         {
-            var updateItem = await _dataContext.Items.FirstOrDefaultAsync(x => x.Id == 1);
+            var updateItem = await _dataContext.items.FirstOrDefaultAsync(x => x.id == 1);
             if (updateItem != null)
             {
-                _dataContext.Items.Update(updateItem);
+                _dataContext.items.Update(updateItem);
                 await _dataContext.SaveChangesAsync();
             }
             return true;

@@ -1,4 +1,5 @@
 ﻿using GabriEShopAPI.Entities;
+using GabriEShopAPI.Exceptions;
 using GabriEShopAPI.Interfaces;
 
 namespace GabriEShopAPI.Services
@@ -16,7 +17,7 @@ namespace GabriEShopAPI.Services
             var itemsList = _itemRepository.GetItems().ToList();
             if (itemsList.Count == 0)
             {
-                return null;
+                throw new NotFound("Can't find items.");
             }
             return itemsList;
         }
@@ -31,7 +32,7 @@ namespace GabriEShopAPI.Services
             bool itemExists = await _itemRepository.CheckIfItemExists(name);
             if (itemExists)
             {
-                throw new Exception("Item already exists");
+                throw new ItemAlreadyExists("Item already exists");
             }
 
             var id = await _itemRepository.AddNewItem(name, price, quantity);
@@ -53,7 +54,7 @@ namespace GabriEShopAPI.Services
             bool itemExists = await _itemRepository.CheckIfItemExistsById(id);
             if (!itemExists)
             {
-                throw new Exception("The item you want to reduce does not exist.");
+                throw new NotFound("The item you want to reduce does not exist.");
             }
             return await _itemRepository.DeleteItem(id);
         }
