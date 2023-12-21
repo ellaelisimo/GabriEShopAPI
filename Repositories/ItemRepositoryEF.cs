@@ -13,10 +13,11 @@ namespace GabriEShopAPI.Repositories
         {
             _dataContext = dataContext;
         }
-        public async Task<int> AddNewItem(string name, decimal price, int quantity)
+        public async Task<int> AddNewItem(Item item)
         {
-             _dataContext.items.Add(new Item { name = name, price = price, quantity = quantity });
-            return await _dataContext.SaveChangesAsync();
+             var asdf = _dataContext.items.Add(item);
+            await _dataContext.SaveChangesAsync();
+            return item.id;
         }
 
         public Task<bool> CheckIfItemExists(string name)

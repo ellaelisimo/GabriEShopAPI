@@ -22,25 +22,33 @@ namespace GabriEShopAPI.Middleware
             }
             catch (Exception error)
             {
-                // log the error
-
                 var response = context.Response;
                 response.ContentType = "application/json";
 
-                // get the response code and message
-
-                //response.StatusCode = (int)404;
-
-                //await response.WriteAsync(JsonSerializer.Deserialize(exception));
-
                 switch (error)
                 {
-                    case NotFound e:
+                    case NotFoundItem:
                         response.StatusCode = (int)HttpStatusCode.NotFound;
                         break;
 
-                    case ItemAlreadyExists e:
+                    case ItemAlreadyExists:
                         response.StatusCode= (int)HttpStatusCode.BadRequest;
+                        break;
+
+                    case ItemCannotBeDeleted:
+                        response.StatusCode=(int)HttpStatusCode.Gone;
+                        break;
+
+                    case FailedToAdd:
+                        response.StatusCode=(int)HttpStatusCode.Conflict;
+                        break;
+
+                    case FailedToUpdate:
+                        response.StatusCode=(int)HttpStatusCode.Conflict;
+                        break;
+
+                    default:
+                        response.StatusCode = (int)HttpStatusCode.InternalServerError;
                         break;
                 }
                 var result = JsonSerializer.Serialize(new { message = error?.Message });

@@ -1,5 +1,6 @@
 using GabriEShopAPI.Context;
 using GabriEShopAPI.Interfaces;
+using GabriEShopAPI.Middleware;
 using GabriEShopAPI.Repositories;
 using GabriEShopAPI.Services;
 using Microsoft.EntityFrameworkCore;
@@ -31,6 +32,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseMiddleware<ErrorHandlingMiddleware>();
 
 app.UseHttpsRedirection();
 

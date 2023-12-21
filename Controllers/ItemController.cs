@@ -4,6 +4,7 @@ using System.Data;
 using GabriEShopAPI.DTOs;
 using GabriEShopAPI.Entities;
 using GabriEShopAPI.Interfaces;
+using GabriEShopAPI.Exceptions;
 
 namespace GabriEShopAPI.Controllers
 {
@@ -19,34 +20,20 @@ namespace GabriEShopAPI.Controllers
         [HttpGet]
         public ActionResult<List<Item>> GetItems()
         {
-            List<Item> items = _itemService.GetItems();
-            if (items == null)
-            {
-                throw new Exception("No items found.");
-            }
-            return Ok(items);
+            return Ok( _itemService.GetItems().ToList());
         }
 
         [HttpGet]
         [Route("{id}")]
         public async Task<ActionResult<Item>> GetItemById(int id)
         {
-            var result = await _itemService.GetItemById(id);
-            if (result == null)
-            {
-                throw new Exception("No items found.");
-            }
-            return Ok(result);
+             return Ok(await _itemService.GetItemById(id));
         }
 
         [HttpPost]
         public async Task<IActionResult> AddNewItem(AddNewItem newItem)
         {
-            var result = await _itemService.AddNewItem(newItem.Name, newItem.Price, newItem.Quantity);
-            if (result == null)
-            {
-                throw new Exception("Failed to add item");
-            }
+            var result = await _itemService.AddNewItem(newItem);
             return CreatedAtAction(nameof(GetItemById), new { id = result.id }, newItem);
             //pabaigoj return newItem, kad grazintu tai, ka raso useris. result - is duombazes
         }
@@ -63,11 +50,7 @@ namespace GabriEShopAPI.Controllers
         [Route("{id}")]
         public async Task<IActionResult> DeleteItem(int id)
         {
-            var result = await _itemService.DeleteItem(id);
-            if (!result)
-            {
-                throw new Exception($"Unable to reduce quantity for item with id {id}");
-            }
+            await _itemService.DeleteItem(id);
             return Ok("Item quantity reduced successfully");
         }
     }
