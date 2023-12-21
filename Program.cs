@@ -8,12 +8,12 @@ using Npgsql;
 using System.Data;
 
 var builder = WebApplication.CreateBuilder(args);
-var connection = "User ID=postgres;Password=Kicunilapa1991;Host=localhost;Port=5432;Database=ItemStore;";
-//var connectionString = builder.Configuration.GetConnectionString(connection) ?? throw new ArgumentNullException("Connection string was not found."); 
+//var connection = "User ID=postgres;Password=Kicunilapa1991;Host=localhost;Port=5432;Database=ItemStore;";
+var connectionString = builder.Configuration["MySecrets:PostgreConnection"] ?? throw new ArgumentNullException("Connection string was not found."); 
 
 // Add services to the container.
-builder.Services.AddScoped<IDbConnection>(_ => new NpgsqlConnection(connection));
-builder.Services.AddDbContext<DataContext>(o => o.UseNpgsql(connection));
+builder.Services.AddScoped<IDbConnection>(_ => new NpgsqlConnection(connectionString));
+builder.Services.AddDbContext<DataContext>(o => o.UseNpgsql(connectionString));
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
