@@ -1,4 +1,4 @@
-namespace UnitTestForShop
+namespace ItemTestProject
 {
     public class UnitTest1
     {

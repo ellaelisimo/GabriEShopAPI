@@ -1,19 +1,12 @@
-﻿using GabriEShopAPI.Interfaces;
-using GabriEShopAPI.Services;
-using GabriEShopAPI.Entities;
-using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using AutoFixture;
 using FluentAssertions;
 using GabriEShopAPI.DTOs;
-using GabriEShopAPI.Exceptions;
-using AutoFixture;
-using GabriEShopAPI.Repositories;
+using GabriEShopAPI.Entities;
+using GabriEShopAPI.Interfaces;
+using GabriEShopAPI.Services;
+using Moq;
 
-namespace UnitTestForShop.Service
+namespace ItemTestProject.ItemServiceTests
 {
     public class ItemServiceTests
     {
@@ -25,7 +18,7 @@ namespace UnitTestForShop.Service
 
         public ItemServiceTests()
         {
-            //_itemRepositoryMock = new Mock<IItemRepository>();
+            _itemRepositoryMock = new Mock<IItemRepository>();
             _itemService = new ItemService(_itemRepositoryMock.Object);//moq keliauja cia - object
             _fixture = new Fixture();
         }
@@ -41,7 +34,7 @@ namespace UnitTestForShop.Service
 
             //Assert
             result[0].id.Should().Be(2);
-            //as tikrinu lista, jo pirmas elementas turi turet id = 2
+            //as tikrinu lista, jo pirmas elementas turi turet id = 2 
         }
 
         [Fact]
@@ -56,6 +49,8 @@ namespace UnitTestForShop.Service
             var result = await _itemService.GetItemById(id);
 
             //Assert
+            _itemRepositoryMock.Verify(m => m.GetItemById(id), Times.Once());
+
             result.id.Should().Be(id);
         }
 
@@ -103,5 +98,41 @@ namespace UnitTestForShop.Service
             result.Should().BeEquivalentTo(updateItem);
         }
 
+        [Theory]
+        [InlineData(int.MaxValue)]
+        [InlineData(int.MinValue)]
+        [InlineData(2)]
+        public async Task Theory_Get_GivenValidId_ReturnsItemWithId(int id)
+        {
+            //Arrange
+            //var expectedItem = new Item { id = id };
+            var entity = _fixture.Build<Item>().With(m => m.id == id).Create();
+            _itemRepositoryMock.Setup(m => m.GetItemById(id)).ReturnsAsync(entity);
+
+            //Act
+            var result = await _itemService.GetItemById(id);
+
+            //Assert
+            _itemRepositoryMock.Verify(m => m.GetItemById(id), Times.Once());
+
+            result.id.Should().Be(id);
+        }
+
+        [Fact]
+        public async Task NewFact_Get_GivenValidId_ReturnsItemWithId()
+        {
+            //Arrange
+            int id = _fixture.Create<int>();
+            var expectedItem = new Item { id = id };
+            _itemRepositoryMock.Setup(m => m.GetItemById(id)).ReturnsAsync(expectedItem);
+
+            //Act
+            var result = await _itemService.GetItemById(id);
+
+            //Assert
+            _itemRepositoryMock.Verify(m => m.GetItemById(id), Times.Once());
+
+            result.id.Should().Be(id);
+        }
     }
 }

@@ -8,7 +8,10 @@ using Npgsql;
 using System.Data;
 
 var builder = WebApplication.CreateBuilder(args);
-var connectionString = builder.Configuration["MySecrets:PostgreConnection"] ?? throw new ArgumentNullException("Connection string was not found."); 
+var connectionString = "User ID=postgres;Password=Kicunilapa1991;Host=localhost;Port=5432;Database=ItemStore;";
+//var connectionString = builder.Configuration["MySecrets:PostgreConnection"] ?? throw new ArgumentNullException("Connection string was not found."); 
+//var connectionString = builder ?? throw new ArgumentNullException("Connection string was not found.");
+
 
 // Add services to the container.
 builder.Services.AddScoped<IDbConnection>(_ => new NpgsqlConnection(connectionString));
