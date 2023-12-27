@@ -76,8 +76,7 @@ namespace GabriEShopAPI.Services
             {
                 throw new ItemCannotBeDeleted($"Unable to reduce quantity for item with id {id}");
             }
-            //if(Item)
-            return await _itemRepository.DeleteItem(id);
+            return await _itemRepository.DeleteItem(id); //reikia grazinti json!
         }
 
         public Task<bool> CheckIfItemExists(string name)
