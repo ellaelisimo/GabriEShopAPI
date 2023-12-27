@@ -15,19 +15,15 @@ namespace GabriEShopAPI.Services
             _itemRepository = itemRepository;
         }
 
-        public List<Item> GetItems()
+        public List<Item> GetAll()
         {
-            var itemsList = _itemRepository.GetItems().ToList();
-            if (itemsList.Count == 0)
-            {
-                throw new NotFoundItem("Can't find items.");
-            }
+            var itemsList = _itemRepository.GetAll().ToList();
             return itemsList;
         }
 
-        public Task<Item> GetItemById(int id)
+        public Task<Item> GetById(int id)
         {
-            var itemById = _itemRepository.GetItemById(id);
+            var itemById = _itemRepository.GetById(id);
             if (itemById == null)
             {
                 throw new NotFoundItem("Can't find items.");
@@ -35,7 +31,7 @@ namespace GabriEShopAPI.Services
             return itemById;
         }
 
-        public async Task<Item> AddNewItem(AddNewItem newItem)
+        public async Task<Item> Add(AddItem newItem)
         {
             bool itemExists = await _itemRepository.CheckIfItemExists(newItem.Name);
             if (itemExists)
@@ -51,32 +47,32 @@ namespace GabriEShopAPI.Services
                 quantity = newItem.Quantity,
             };
 
-            var id = await _itemRepository.AddNewItem(gabiItem);
+            var id = await _itemRepository.Add(gabiItem);
             if (id == null)
             {
                 throw new FailedToAdd("Failed to add item");
             }
-            return await _itemRepository.GetItemById(id);
+            return await _itemRepository.GetById(id);
         }
 
-        public async Task<Item> UpdateItem(int id, string name, decimal price, int quantity)
+        public async Task<Item> Update(int id, string name, decimal price, int quantity)
         {
-            var result = await _itemRepository.UpdateItem(id, name, price, quantity);
+            var result = await _itemRepository.Update(id, name, price, quantity);
             if (result)
             {
-                return await _itemRepository.GetItemById(id);
+                return await _itemRepository.GetById(id);
             }
             throw new FailedToUpdate();
         }
 
-        public async Task<bool> DeleteItem(int id)
+        public async Task<bool> Delete(int id)
         {
             bool itemExists = await _itemRepository.CheckIfItemExistsById(id);
             if (!itemExists)
             {
                 throw new ItemCannotBeDeleted($"Unable to reduce quantity for item with id {id}");
             }
-            return await _itemRepository.DeleteItem(id); //reikia grazinti json!
+            return await _itemRepository.Delete(id); //reikia grazinti json!
         }
 
         public Task<bool> CheckIfItemExists(string name)

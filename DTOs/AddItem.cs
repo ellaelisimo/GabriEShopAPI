@@ -2,10 +2,10 @@
 
 namespace GabriEShopAPI.DTOs
 {
-    public class AddNewItem
+    public class AddItem
     {
         [Required]
-        public string Name { get; set; }
+        public string ? Name { get; set; }
 
         [Required]
         public decimal Price { get; set; }

@@ -18,39 +18,39 @@ namespace GabriEShopAPI.Controllers
             _itemService = itemService;
         }
         [HttpGet]
-        public ActionResult<List<Item>> GetItems()
+        public ActionResult<List<Item>> GetAll()
         {
-            return Ok( _itemService.GetItems().ToList());
+            return Ok( _itemService.GetAll().ToList());
         }
 
         [HttpGet]
         [Route("{id}")]
-        public async Task<ActionResult<Item>> GetItemById(int id)
+        public async Task<ActionResult<Item>> GetIById(int id)
         {
-             return Ok(await _itemService.GetItemById(id));
+             return Ok(await _itemService.GetById(id));
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddNewItem(AddNewItem newItem)
+        public async Task<IActionResult> Add(AddItem newItem)
         {
-            var result = await _itemService.AddNewItem(newItem);
-            return CreatedAtAction(nameof(GetItemById), new { id = result.id }, newItem);
+            var result = await _itemService.Add(newItem);
+            return CreatedAtAction(nameof(GetIById), new { id = result.id }, newItem);
             //pabaigoj return newItem, kad grazintu tai, ka raso useris. result - is duombazes
         }
 
         [HttpPut]
         [Route("{id}")]
-        public async Task<IActionResult> UpdateItem(int id, [FromBody] UpdateItem updateItem)
+        public async Task<IActionResult> Update(int id, [FromBody] UpdateItem updateItem)
         {
-            var result = await _itemService.UpdateItem(id, updateItem.Name, updateItem.Price, updateItem.Quantity);
+            var result = await _itemService.Update(id, updateItem.Name, updateItem.Price, updateItem.Quantity);
             return Ok(result);
         }
 
         [HttpDelete]
         [Route("{id}")]
-        public async Task<IActionResult> DeleteItem(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            await _itemService.DeleteItem(id);
+            await _itemService.Delete(id);
             return Ok("Item quantity reduced successfully");
         }
     }

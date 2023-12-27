@@ -13,7 +13,7 @@ namespace GabriEShopAPI.Repositories
         {
             _dataContext = dataContext;
         }
-        public async Task<int> AddNewItem(Item item)
+        public async Task<int> Add(Item item)
         {
              var asdf = _dataContext.items.Add(item);
             await _dataContext.SaveChangesAsync();
@@ -30,7 +30,7 @@ namespace GabriEShopAPI.Repositories
             return _dataContext.items.AnyAsync(item => item.id == id);
         }
 
-        public async Task<bool> DeleteItem(int id)
+        public async Task<bool> Delete(int id)
         {
             var deleteItem = await _dataContext.items.FirstOrDefaultAsync(x => x.id == 1);
             if (deleteItem != null)
@@ -41,18 +41,18 @@ namespace GabriEShopAPI.Repositories
             return true;
         }
 
-        public async Task<Item> GetItemById(int id)
+        public async Task<Item> GetById(int id)
         {
             return await _dataContext.items.Where(i => i.id == id).SingleOrDefaultAsync();
         }
 
-        public List<Item> GetItems()
+        public List<Item> GetAll()
         {
             return _dataContext.items.ToList();
             //ToListAsync naudojamas su Task<List<Item>> jei f-cija async; po ToList() negalima filtruoti, nes filtras tada eis ne per duombaze, o per musu irasus
         }
 
-        public async Task<bool> UpdateItem(int id, string name, decimal price, int quantity)
+        public async Task<bool> Update(int id, string name, decimal price, int quantity)
         {
             var updateItem = await _dataContext.items.FirstOrDefaultAsync(x => x.id == id);
             if (updateItem != null)

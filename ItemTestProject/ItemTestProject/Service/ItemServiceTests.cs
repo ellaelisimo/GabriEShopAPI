@@ -27,10 +27,10 @@ namespace ItemTestProject.ItemServiceTests
         public void Get_ReturnsListOfITems()
         {
             //Arrange
-            _itemRepositoryMock.Setup(m => m.GetItems()).Returns(new List<Item> { new Item { id = 2 } });
+            _itemRepositoryMock.Setup(m => m.GetAll()).Returns(new List<Item> { new Item { id = 2 } });
 
             //Act
-            var result = _itemService.GetItems();
+            var result = _itemService.GetAll();
 
             //Assert
             result[0].id.Should().Be(2);
@@ -43,13 +43,13 @@ namespace ItemTestProject.ItemServiceTests
             //Arrange
             int id = 1;
             var expectedItem = new Item { id = id };
-            _itemRepositoryMock.Setup(m => m.GetItemById(id)).ReturnsAsync(expectedItem);
+            _itemRepositoryMock.Setup(m => m.GetById(id)).ReturnsAsync(expectedItem);
 
             //Act
-            var result = await _itemService.GetItemById(id);
+            var result = await _itemService.GetById(id);
 
             //Assert
-            _itemRepositoryMock.Verify(m => m.GetItemById(id), Times.Once());
+            _itemRepositoryMock.Verify(m => m.GetById(id), Times.Once());
 
             result.id.Should().Be(id);
         }
@@ -58,18 +58,18 @@ namespace ItemTestProject.ItemServiceTests
         public async Task Add_WhenItemDoesNotExists_ReturnsAddedItem()
         {
             //Arrange
-            var newItem = new AddNewItem //Dto
+            var newItem = new AddItem //Dto
             {
                 Name = "Test",
                 Price = 10,
                 Quantity = 1,
             };
             _itemRepositoryMock.Setup(m => m.CheckIfItemExists(newItem.Name)).ReturnsAsync(false);
-            _itemRepositoryMock.Setup(m => m.AddNewItem(It.IsAny<Item>())).ReturnsAsync(1);
-            _itemRepositoryMock.Setup(m => m.GetItemById(1)).ReturnsAsync(new Item { id = 15, name = newItem.Name, price = newItem.Price, quantity = newItem.Quantity });
+            _itemRepositoryMock.Setup(m => m.Add(It.IsAny<Item>())).ReturnsAsync(1);
+            _itemRepositoryMock.Setup(m => m.GetById(1)).ReturnsAsync(new Item { id = 15, name = newItem.Name, price = newItem.Price, quantity = newItem.Quantity });
 
             //Act 
-            var result = await _itemService.AddNewItem(newItem);
+            var result = await _itemService.Add(newItem);
 
             //Assert
             result.name.Should().Be(newItem.Name);
@@ -89,10 +89,10 @@ namespace ItemTestProject.ItemServiceTests
                 price = 10.89m,
                 quantity = 1,
             };
-            _itemRepositoryMock.Setup(m => m.UpdateItem(itemId, updateItem.name, updateItem.price, updateItem.quantity)).ReturnsAsync(true);
+            _itemRepositoryMock.Setup(m => m.Update(itemId, updateItem.name, updateItem.price, updateItem.quantity)).ReturnsAsync(true);
 
             //Act
-            var result = await _itemService.UpdateItem(itemId, updateItem.name, updateItem.price, updateItem.quantity);
+            var result = await _itemService.Update(itemId, updateItem.name, updateItem.price, updateItem.quantity);
 
             //Assert
             result.Should().BeEquivalentTo(updateItem);
@@ -107,13 +107,13 @@ namespace ItemTestProject.ItemServiceTests
             //Arrange
             //var expectedItem = new Item { id = id };
             var entity = _fixture.Build<Item>().With(m => m.id == id).Create();
-            _itemRepositoryMock.Setup(m => m.GetItemById(id)).ReturnsAsync(entity);
+            _itemRepositoryMock.Setup(m => m.GetById(id)).ReturnsAsync(entity);
 
             //Act
-            var result = await _itemService.GetItemById(id);
+            var result = await _itemService.GetById(id);
 
             //Assert
-            _itemRepositoryMock.Verify(m => m.GetItemById(id), Times.Once());
+            _itemRepositoryMock.Verify(m => m.GetById(id), Times.Once());
 
             result.id.Should().Be(id);
         }
@@ -124,13 +124,13 @@ namespace ItemTestProject.ItemServiceTests
             //Arrange
             int id = _fixture.Create<int>();
             var expectedItem = new Item { id = id };
-            _itemRepositoryMock.Setup(m => m.GetItemById(id)).ReturnsAsync(expectedItem);
+            _itemRepositoryMock.Setup(m => m.GetById(id)).ReturnsAsync(expectedItem);
 
             //Act
-            var result = await _itemService.GetItemById(id);
+            var result = await _itemService.GetById(id);
 
             //Assert
-            _itemRepositoryMock.Verify(m => m.GetItemById(id), Times.Once());
+            _itemRepositoryMock.Verify(m => m.GetById(id), Times.Once());
 
             result.id.Should().Be(id);
         }
