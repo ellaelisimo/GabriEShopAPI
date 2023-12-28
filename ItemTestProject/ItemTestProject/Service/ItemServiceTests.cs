@@ -134,5 +134,22 @@ namespace ItemTestProject.ItemServiceTests
 
             result.id.Should().Be(id);
         }
+
+        [Fact]
+        public async Task Delete_GivenValidId_ReturnsDeletedItem()
+        {
+            //Arrange
+            int id = _fixture.Create<int>();
+            _itemRepositoryMock.Setup(m => m.CheckIfItemExistsById(id));
+            _itemRepositoryMock.Setup(m => m.Delete(id)).ReturnsAsync(true);
+
+            //Act
+            var result = await _itemService.Delete(id);
+
+            //Assert
+            result.Should().BeTrue();
+            _itemRepositoryMock.Verify(m => m.CheckIfItemExistsById(id), Times.Once);
+            _itemRepositoryMock.Verify(m => m.Delete(id), Times.Once);
+        }
     }
 }

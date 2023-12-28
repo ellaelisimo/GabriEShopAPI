@@ -1,3 +1,5 @@
+using FluentAssertions.Common;
+using GabriEShopAPI.Clients;
 using GabriEShopAPI.Context;
 using GabriEShopAPI.Interfaces;
 using GabriEShopAPI.Middleware;
@@ -24,6 +26,9 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddTransient<IItemRepository, ItemRepositoryEF>();
 //builder.Services.AddTransient<IItemRepository, ItemRepositoryDapper>();
 builder.Services.AddTransient<IItemService, ItemService>();
+builder.Services.AddTransient<IJsonPlaceholderClient, JsonPlaceholderClient>();
+
+builder.Services.AddHttpClient();
 
 var app = builder.Build();
 

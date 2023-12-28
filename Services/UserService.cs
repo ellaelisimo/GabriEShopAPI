@@ -20,7 +20,12 @@ namespace GabriEShopAPI.Services
                 throw new Exception("User not found.");
             }
             return result.Data;
+        }
 
+        public async Task<UserResponse> Add(string name, string email)
+        {
+            var result = await _client.AddUserAsync(name, email);
+            return result;
         }
     }
 }

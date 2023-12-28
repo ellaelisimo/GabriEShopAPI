@@ -6,6 +6,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <InvariantGlobalization>true</InvariantGlobalization>
     <UserSecretsId>b91e3eb8-0ec1-4278-abc8-798ae5e07d0e</UserSecretsId>
+    <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
+<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
 
   <ItemGroup>
