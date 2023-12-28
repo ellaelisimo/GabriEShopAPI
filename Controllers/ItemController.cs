@@ -6,7 +6,7 @@ using GabriEShopAPI.Entities;
 using GabriEShopAPI.Interfaces;
 using GabriEShopAPI.Exceptions;
 
-namespace GabriEShopAPI.Controllers
+namespace GabriEShopAPI.Controllers 
 {
     [ApiController]
     [Route("api/items")]
