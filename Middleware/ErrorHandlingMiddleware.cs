@@ -35,11 +35,15 @@ namespace GabriEShopAPI.Middleware
                         response.StatusCode = (int)HttpStatusCode.NotFound; 
                         break;
 
-                    case ItemAlreadyExists:
+                    case NotFoundShop:
+                        response.StatusCode = (int)HttpStatusCode.NotFound;
+                        break;
+
+                    case AlreadyExists:
                         response.StatusCode= (int)HttpStatusCode.BadRequest;
                         break;
 
-                    case ItemCannotBeDeleted:
+                    case CannotBeDeleted:
                         response.StatusCode=(int)HttpStatusCode.Gone;
                         break;
 

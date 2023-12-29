@@ -5,6 +5,7 @@ namespace GabriEShopAPI.DTOs
     public class UpdateItem
     {
         public int Id { get; set; }
+
         [Required]
         public string ? Name { get; set; }
 

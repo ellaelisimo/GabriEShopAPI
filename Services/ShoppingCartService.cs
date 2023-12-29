@@ -21,7 +21,7 @@ namespace GabriEShopAPI.Services
             var checkItem = await _shoppingCartRepository.FindItemById(id);
             if (checkItem == null)
             {
-                throw new NotFoundItem($"Item with {id} does not exists");
+                throw new NotFoundItem($"Item with {id} does not exists.");
             }
             return checkItem;
         }
@@ -31,13 +31,13 @@ namespace GabriEShopAPI.Services
             var itemExists = await _shoppingCartRepository.FindItemById(itemDetails.Id);
             if(itemExists == null)
             {
-                throw new NotFoundItem($"Item with id {itemDetails.Id} doesn't exist");
+                throw new NotFoundItem($"Item with id {itemDetails.Id} doesn't exist.");
             }
 
             var userExists = await _jsonPlaceholderClient.GetUserAsync(userId);
             if(userExists == null)
             {
-                throw new NotFoundUser($"User with id {userId} doesn't exist");
+                throw new NotFoundUser($"User with id {userId} doesn't exist.");
             }
 
             await _shoppingCartRepository.BuyLogic(userId, itemDetails.Id, itemDetails.Name, itemDetails.Price);

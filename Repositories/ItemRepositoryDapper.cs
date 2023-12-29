@@ -21,7 +21,7 @@ namespace GabriEShopAPI.Repositories
 
         public Task<int> AddNewItem(string name, decimal price, int quantity)
         {
-            string sql = $"INSERT INTO items (name, price, qunatity) VALUES (@name, @price, @quantity) returning id";
+            string sql = $"INSERT INTO items (name, price, quantity) VALUES (@name, @price, @quantity) returning id";
             var queryArguments = new
             {
                 name = name,

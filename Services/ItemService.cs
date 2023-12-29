@@ -36,7 +36,7 @@ namespace GabriEShopAPI.Services
             bool itemExists = await _itemRepository.CheckIfItemExists(newItem.Name);
             if (itemExists)
             {
-                throw new ItemAlreadyExists("Item already exists");
+                throw new AlreadyExists("Item already exists.");
             }
 
             //mapinimas dto prilygini savo enticiui
@@ -50,7 +50,7 @@ namespace GabriEShopAPI.Services
             var id = await _itemRepository.Add(gabiItem);
             if (id == null)
             {
-                throw new FailedToAdd("Failed to add item");
+                throw new FailedToAdd("Failed to add item.");
             }
             return await _itemRepository.GetById(id);
         }
@@ -70,7 +70,7 @@ namespace GabriEShopAPI.Services
             bool itemExists = await _itemRepository.CheckIfItemExistsById(id);
             if (!itemExists)
             {
-                throw new ItemCannotBeDeleted($"Unable to reduce quantity for item with id {id}");
+                throw new CannotBeDeleted($"Unable to reduce quantity for item with id {id}.");
             }
             return await _itemRepository.Delete(id); //reikia grazinti json!
         }
@@ -80,7 +80,7 @@ namespace GabriEShopAPI.Services
             var checkItem = _itemRepository.CheckIfItemExists(name);
             if(checkItem == null)
             {
-                throw new NotFoundItem($"Item with {name} does not exists");
+                throw new NotFoundItem($"Item with {name} does not exists.");
             }
             return checkItem;
         }
@@ -90,7 +90,7 @@ namespace GabriEShopAPI.Services
             var checkItem = _itemRepository.CheckIfItemExistsById(id);
             if (checkItem == null)
             {
-                throw new NotFoundItem($"Item with {id} does not exists");
+                throw new NotFoundItem($"Item with {id} does not exists.");
             }
             return checkItem;
         }

@@ -9,7 +9,7 @@ using GabriEShopAPI.Exceptions;
 namespace GabriEShopAPI.Controllers 
 {
     [ApiController]
-    [Route("api/items")]
+    [Route("items")]
     public class ItemController : ControllerBase
     {
         private readonly IItemService _itemService;
@@ -51,7 +51,7 @@ namespace GabriEShopAPI.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             await _itemService.Delete(id);
-            return Ok("Item quantity reduced successfully");
+            return Ok("Item quantity reduced successfully.");
         }
     }
 }
