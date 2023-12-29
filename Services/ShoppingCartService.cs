@@ -44,3 +44,8 @@ namespace GabriEShopAPI.Services
         }
     }
 }
+//web api restful pavadinimai turi buti pataisyti pagal dokumentacija
+//jei rasau async tai visur rasau tai
+//buylogic reik tik itemId ir turi surast pats name, price
+//patikrint ar quantity pasikeicia, nes pirkimo metu turi nusiminusuoti quantity
+//padaryt get shoppingCart, kad parodytu, kas jame yra
