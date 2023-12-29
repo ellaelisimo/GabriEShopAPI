@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 namespace GabriEShopAPI.Controllers
 {
     [ApiController()]
-    [Route("[controller]")]
     public class UserController : ControllerBase
     {
         private readonly IJsonPlaceholderClient _client;
@@ -18,20 +17,21 @@ namespace GabriEShopAPI.Controllers
         }
 
         [HttpGet]
+        [Route("users")]
         public async Task<IActionResult> Get()
         {
             return Ok(await _client.GetUsers());
         }
 
         [HttpGet]
-        [Route("{id}")]
+        [Route("user/{id}")]
         public async Task<IActionResult> GetUserAsync(int id)
         {
             return Ok(await _client.GetUserAsync(id));
         }
 
         [HttpPost]
-        [Route("add")]
+        [Route("add/user")]
         public async Task<IActionResult> AddUserAsync([FromBody] AddUser user)
         {
             var newUser = await _client.AddUserAsync(user.Name, user.Email);

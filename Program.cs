@@ -28,6 +28,8 @@ builder.Services.AddTransient<IItemRepository, ItemRepositoryEF>();
 builder.Services.AddTransient<IItemService, ItemService>();
 builder.Services.AddTransient<IShoppingCartRepository, ShoppingCartRepositoryDapper>();
 builder.Services.AddTransient<IShoppingCartService, ShoppingCartService>();
+builder.Services.AddTransient<IShopService, ShopService>();
+builder.Services.AddTransient<IShopRepository, ShopRepositoryDapper>();
 builder.Services.AddTransient<IJsonPlaceholderClient, JsonPlaceholderClient>();
 
 builder.Services.AddHttpClient();

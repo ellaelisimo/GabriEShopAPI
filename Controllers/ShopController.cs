@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 namespace GabriEShopAPI.Controllers  //_ = await .... ?? throw ...   -- tarsi nesvarbu, ka grazina
 {
     [ApiController]
-    [Route("shops")]
     public class ShopController : ControllerBase
     {
         private readonly IShopService _shopService;
@@ -15,19 +14,21 @@ namespace GabriEShopAPI.Controllers  //_ = await .... ?? throw ...   -- tarsi ne
             _shopService = shopService;
         }
         [HttpGet]
+        [Route("shops")]
         public ActionResult<List<Shop>> GetAll()
         {
             return Ok(_shopService.GetAll().ToList());
         }
 
         [HttpGet]
-        [Route("{id}")]
+        [Route("shop/{id}")]
         public async Task<ActionResult<Shop>> GetIById(int id)
         {
             return Ok(await _shopService.GetById(id));
         }
 
         [HttpPost]
+        [Route("add/shop")]
         public async Task<IActionResult> Add(AddShop newShop)
         {
             var result = await _shopService.Add(newShop);
@@ -35,7 +36,7 @@ namespace GabriEShopAPI.Controllers  //_ = await .... ?? throw ...   -- tarsi ne
         }
 
         [HttpPut]
-        [Route("{id}")]
+        [Route("update/shop/{id}")]
         public async Task<IActionResult> Update(int id, [FromBody] UpdateShop updateShop)
         {
             var result = await _shopService.Update(id, updateShop.Name, updateShop.Address);
@@ -43,7 +44,7 @@ namespace GabriEShopAPI.Controllers  //_ = await .... ?? throw ...   -- tarsi ne
         }
 
         [HttpDelete]
-        [Route("{id}")]
+        [Route("delete/shop/{id}")]
         public async Task<IActionResult> Delete(int id)
         {
             await _shopService.Delete(id);

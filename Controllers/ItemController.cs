@@ -9,7 +9,6 @@ using GabriEShopAPI.Exceptions;
 namespace GabriEShopAPI.Controllers 
 {
     [ApiController]
-    [Route("items")]
     public class ItemController : ControllerBase
     {
         private readonly IItemService _itemService;
@@ -18,19 +17,21 @@ namespace GabriEShopAPI.Controllers
             _itemService = itemService;
         }
         [HttpGet]
+        [Route("items")]
         public ActionResult<List<Item>> GetAll()
         {
             return Ok( _itemService.GetAll().ToList());
         }
 
         [HttpGet]
-        [Route("{id}")]
+        [Route("item/{id}")]
         public async Task<ActionResult<Item>> GetIById(int id)
         {
              return Ok(await _itemService.GetById(id));
         }
 
         [HttpPost]
+        [Route("add/item")]
         public async Task<IActionResult> Add(AddItem newItem)
         {
             var result = await _itemService.Add(newItem);
@@ -39,7 +40,7 @@ namespace GabriEShopAPI.Controllers
         }
 
         [HttpPut]
-        [Route("{id}")]
+        [Route("update/item/{id}")]
         public async Task<IActionResult> Update(int id, [FromBody] UpdateItem updateItem)
         {
             var result = await _itemService.Update(id, updateItem.Name, updateItem.Price, updateItem.Quantity);
@@ -47,7 +48,7 @@ namespace GabriEShopAPI.Controllers
         }
 
         [HttpDelete]
-        [Route("{id}")]
+        [Route("delete/item/{id}")]
         public async Task<IActionResult> Delete(int id)
         {
             await _itemService.Delete(id);
