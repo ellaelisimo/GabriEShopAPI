@@ -1,7 +1,5 @@
-﻿using GabriEShopAPI.Clients;
-using GabriEShopAPI.DTOs;
+﻿using GabriEShopAPI.DTOs;
 using GabriEShopAPI.Interfaces;
-using GabriEShopAPI.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GabriEShopAPI.Controllers
@@ -16,6 +14,9 @@ namespace GabriEShopAPI.Controllers
             _client = client;
         }
 
+        /// <summary>
+        /// Get all users
+        /// </summary>
         [HttpGet]
         [Route("users")]
         public async Task<IActionResult> Get()
@@ -23,6 +24,9 @@ namespace GabriEShopAPI.Controllers
             return Ok(await _client.GetUsers());
         }
 
+        /// <summary>
+        /// Get user by id
+        /// </summary>
         [HttpGet]
         [Route("user/{id}")]
         public async Task<IActionResult> GetUserAsync(int id)
@@ -30,6 +34,9 @@ namespace GabriEShopAPI.Controllers
             return Ok(await _client.GetUserAsync(id));
         }
 
+        /// <summary>
+        /// Add new user
+        /// </summary>
         [HttpPost]
         [Route("add/user")]
         public async Task<IActionResult> AddUserAsync([FromBody] AddUser user)

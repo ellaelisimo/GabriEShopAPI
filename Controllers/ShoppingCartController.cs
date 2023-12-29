@@ -14,6 +14,9 @@ namespace GabriEShopAPI.Controllers
             _shoppingCartService = shoppingCartService;
         }
 
+        /// <summary>
+        /// Buy item
+        /// </summary>
         [HttpPut]
         [Route("buy")]
         public async Task<IActionResult> BuyLogic(int userId, [FromBody] ItemResponse itemDetails)

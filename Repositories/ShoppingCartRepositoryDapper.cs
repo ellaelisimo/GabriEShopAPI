@@ -29,7 +29,7 @@ namespace GabriEShopAPI.Repositories
 
         public async Task BuyLogic(int userId, int itemId, string itemName, decimal itemPrice)
         {
-                string insertSql = $"INSERT INTO shopping_cart (user_id, item_id, item_name, item_price) VALUES @userId, @itemId, @itemName, @itemPrice returning order_id";
+                string insertSql = $"INSERT INTO shopping_cart (user_id, item_id, item_name, item_price) VALUES (@userId, @itemId, @itemName, @itemPrice) returning order_id";
 
             await _connection.ExecuteScalarAsync<int>(insertSql, new
             {

@@ -6,8 +6,10 @@ using GabriEShopAPI.Middleware;
 using GabriEShopAPI.Repositories;
 using GabriEShopAPI.Services;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 using Npgsql;
 using System.Data;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = "User ID=postgres;Password=Kicunilapa1991;Host=localhost;Port=5432;Database=ItemStore;";
@@ -33,6 +35,16 @@ builder.Services.AddTransient<IShopRepository, ShopRepositoryDapper>();
 builder.Services.AddTransient<IJsonPlaceholderClient, JsonPlaceholderClient>();
 
 builder.Services.AddHttpClient();
+
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "GabriEShop", Version = "v1" });
+
+    // Include the XML comments file
+    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    c.IncludeXmlComments(xmlPath);
+});
 
 var app = builder.Build();
 

@@ -16,6 +16,10 @@ namespace GabriEShopAPI.Controllers
         {
             _itemService = itemService;
         }
+
+        /// <summary>
+        /// Get all items
+        /// </summary>
         [HttpGet]
         [Route("items")]
         public ActionResult<List<Item>> GetAll()
@@ -23,6 +27,9 @@ namespace GabriEShopAPI.Controllers
             return Ok( _itemService.GetAll().ToList());
         }
 
+        /// <summary>
+        /// Get item by id
+        /// </summary>
         [HttpGet]
         [Route("item/{id}")]
         public async Task<ActionResult<Item>> GetIById(int id)
@@ -30,6 +37,9 @@ namespace GabriEShopAPI.Controllers
              return Ok(await _itemService.GetById(id));
         }
 
+        /// <summary>
+        /// Add new item
+        /// </summary>
         [HttpPost]
         [Route("add/item")]
         public async Task<IActionResult> Add(AddItem newItem)
@@ -39,6 +49,9 @@ namespace GabriEShopAPI.Controllers
             //pabaigoj return newItem, kad grazintu tai, ka raso useris. result - is duombazes
         }
 
+        /// <summary>
+        /// Update existing item
+        /// </summary>
         [HttpPut]
         [Route("update/item/{id}")]
         public async Task<IActionResult> Update(int id, [FromBody] UpdateItem updateItem)
@@ -47,6 +60,9 @@ namespace GabriEShopAPI.Controllers
             return Ok(result);
         }
 
+        /// <summary>
+        /// Delete existing item
+        /// </summary>
         [HttpDelete]
         [Route("delete/item/{id}")]
         public async Task<IActionResult> Delete(int id)
