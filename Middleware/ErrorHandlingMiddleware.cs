@@ -31,6 +31,10 @@ namespace GabriEShopAPI.Middleware
                         response.StatusCode = (int)HttpStatusCode.NotFound;
                         break;
 
+                    case NotFoundUser:
+                        response.StatusCode = (int)HttpStatusCode.NotFound; 
+                        break;
+
                     case ItemAlreadyExists:
                         response.StatusCode= (int)HttpStatusCode.BadRequest;
                         break;

@@ -1,4 +1,5 @@
-﻿using GabriEShopAPI.Interfaces;
+﻿using GabriEShopAPI.DTOs;
+using GabriEShopAPI.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GabriEShopAPI.Controllers
@@ -14,9 +15,14 @@ namespace GabriEShopAPI.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> TranferItemsPlace(int id, int itemId, string name, decimal price)
+        [Route("buy")]
+        public async Task<IActionResult> BuyLogic(int userId, [FromBody] ItemResponse itemDetails)
         {
-            await _shoppingCartService.TranferItemsPlace(id, itemId, name, price);
+            //var itemId = itemDetails.Id;
+            //var name = itemDetails.Name;
+            //var price = itemDetails.Price;
+
+            await _shoppingCartService.BuyLogic(userId, itemDetails);
             return Ok("Items transfered to shopping cart succesfully");
         }
     }

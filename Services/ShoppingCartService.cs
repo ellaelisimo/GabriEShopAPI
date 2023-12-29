@@ -1,15 +1,19 @@
-﻿using GabriEShopAPI.Entities;
+﻿using GabriEShopAPI.DTOs;
+using GabriEShopAPI.Entities;
 using GabriEShopAPI.Exceptions;
 using GabriEShopAPI.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 
 namespace GabriEShopAPI.Services
 {
     public class ShoppingCartService : IShoppingCartService
     {
         private readonly IShoppingCartRepository _shoppingCartRepository;
-        public ShoppingCartService(IShoppingCartRepository shoppingCartRepository)
+        private readonly IJsonPlaceholderClient _jsonPlaceholderClient;
+        public ShoppingCartService(IShoppingCartRepository shoppingCartRepository, IJsonPlaceholderClient jsonPlaceholderClient)
         {
             _shoppingCartRepository = shoppingCartRepository;
+            _jsonPlaceholderClient = jsonPlaceholderClient;
         }
 
         public async Task<Item> FindItemById(int id)
@@ -22,15 +26,21 @@ namespace GabriEShopAPI.Services
             return checkItem;
         }
 
-        public async Task TranferItemsPlace(int id, int itemId, string name, decimal price)
+        public async Task BuyLogic(int userId, [FromBody] ItemResponse itemDetails)
         {
-            var itemExists = await _shoppingCartRepository.FindItemById(id);
+            var itemExists = await _shoppingCartRepository.FindItemById(itemDetails.Id);
             if(itemExists == null)
             {
-                throw new Exception("This item doesn't exists");
+                throw new NotFoundItem($"Item with id {itemDetails.Id} doesn't exist");
             }
 
-            await _shoppingCartRepository.TranferItemsPlace(itemId, name, price);
+            var userExists = await _jsonPlaceholderClient.GetUserAsync(userId);
+            if(userExists == null)
+            {
+                throw new NotFoundUser($"User with id {userId} doesn't exist");
+            }
+
+            await _shoppingCartRepository.BuyLogic(userId, itemDetails.Id, itemDetails.Name, itemDetails.Price);
         }
     }
 }

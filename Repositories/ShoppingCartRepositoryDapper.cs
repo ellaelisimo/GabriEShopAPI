@@ -1,7 +1,10 @@
 ﻿using Dapper;
 using GabriEShopAPI.Entities;
 using GabriEShopAPI.Interfaces;
+using Microsoft.AspNetCore.Http.HttpResults;
 using System.Data;
+using GabriEShopAPI.Exceptions;
+using GabriEShopAPI.DTOs;
 
 namespace GabriEShopAPI.Repositories
     //ar user egzistuoja, ar item egzistuoja +(jeigu viskas tvrkoje) puchase history, kas perka, kiek ir ko!! and user id turi buti shopping cart arba purchase
@@ -24,17 +27,17 @@ namespace GabriEShopAPI.Repositories
             return await _connection.QuerySingleAsync<Item>(sql, queryArguments);
         }
 
-        public async Task TranferItemsPlace(int itemId, string itemName, decimal itemPrice)
+        public async Task BuyLogic(int userId, int itemId, string itemName, decimal itemPrice)
         {
-                string insertSql = $"INSERT INTO shopping_cart (item_id, item_name, item_price) VALUES @itemId, @itemName, @itemPrice returning order_id";
+                string insertSql = $"INSERT INTO shopping_cart (user_id, item_id, item_name, item_price) VALUES @userId, @itemId, @itemName, @itemPrice returning order_id";
 
-                await _connection.ExecuteAsync(insertSql, new
-                {
-                    itemId = item.id,
-                    itemName = item.name,
-                    itemPrice = item.price
-                });
-            }
+            await _connection.ExecuteScalarAsync<int>(insertSql, new
+            {
+                itemId = itemId,
+                itemName = itemName,
+                itemPrice = itemPrice,
+                userId = userId
+            });
         }
     }
 }

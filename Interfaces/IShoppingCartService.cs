@@ -1,11 +1,11 @@
-﻿using GabriEShopAPI.Entities;
+﻿using GabriEShopAPI.DTOs;
+using GabriEShopAPI.Entities;
 
 namespace GabriEShopAPI.Interfaces
 {
     public interface IShoppingCartService
     {
         public Task<Item> FindItemById(int id);
-        public Task TranferItemsPlace(int id, int itemId, string name, decimal price);
-
+        public Task BuyLogic(int userId, ItemResponse itemDetails);
     }
 }

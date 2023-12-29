@@ -6,6 +6,6 @@ namespace GabriEShopAPI.Interfaces
     {
         public Task<Item> FindItemById(int id);
 
-        public Task TranferItemsPlace(int itemId, string itemName, decimal itemPrice);
+        public Task BuyLogic(int userId, int itemId, string itemName, decimal itemPrice);
     }
 }
